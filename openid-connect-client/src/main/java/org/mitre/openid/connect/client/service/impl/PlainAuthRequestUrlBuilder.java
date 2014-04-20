@@ -53,9 +53,11 @@ public class PlainAuthRequestUrlBuilder implements AuthRequestUrlBuilder {
 			uriBuilder.addParameter("scope", Joiner.on(" ").join(clientConfig.getScope()));
 
 			uriBuilder.addParameter("redirect_uri", redirectUri);
-
-			uriBuilder.addParameter("nonce", nonce);
-
+                        
+                        if(serverConfig.getNonceSupported() == null || serverConfig.getNonceSupported().equals(Boolean.TRUE)) {
+                            uriBuilder.addParameter("nonce", nonce);
+                        }
+                        
 			uriBuilder.addParameter("state", state);
 
 			// Optional parameters:

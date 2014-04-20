@@ -48,6 +48,7 @@ public class TestPlainAuthRequestUrlBuilder {
 
 		serverConfig = Mockito.mock(ServerConfiguration.class);
 		Mockito.when(serverConfig.getAuthorizationEndpointUri()).thenReturn("https://server.example.com/authorize");
+		Mockito.when(serverConfig.getNonceSupported()).thenReturn(null);
 
 		clientConfig = Mockito.mock(RegisteredClient.class);
 		Mockito.when(clientConfig.getClientId()).thenReturn("s6BhdRkqt3");

@@ -488,25 +488,27 @@ public class OIDCAuthenticationFilter extends AbstractAuthenticationProcessingFi
 					throw new AuthenticationServiceException("Audience does not match, expected " + clientConfig.getClientId() + " got " + idClaims.getAudience());
 				}
 
-				// compare the nonce to our stored claim
-				String nonce = idClaims.getStringClaim("nonce");
-				if (Strings.isNullOrEmpty(nonce)) {
+                                if(serverConfig.getNonceSupported() == null || serverConfig.getNonceSupported().equals(Boolean.TRUE)) {
+                                    // compare the nonce to our stored claim
+                                    String nonce = idClaims.getStringClaim("nonce");
+                                    if (Strings.isNullOrEmpty(nonce)) {
 
-					logger.error("ID token did not contain a nonce claim.");
+                                            logger.error("ID token did not contain a nonce claim.");
 
-					throw new AuthenticationServiceException("ID token did not contain a nonce claim.");
-				}
+                                            throw new AuthenticationServiceException("ID token did not contain a nonce claim.");
+                                    }
 
-				String storedNonce = getStoredNonce(session);
-				if (!nonce.equals(storedNonce)) {
-					logger.error("Possible replay attack detected! The comparison of the nonce in the returned "
-							+ "ID Token to the session " + NONCE_SESSION_VARIABLE + " failed. Expected " + storedNonce + " got " + nonce + ".");
+                                    String storedNonce = getStoredNonce(session);
+                                    if (!nonce.equals(storedNonce)) {
+                                            logger.error("Possible replay attack detected! The comparison of the nonce in the returned "
+                                                            + "ID Token to the session " + NONCE_SESSION_VARIABLE + " failed. Expected " + storedNonce + " got " + nonce + ".");
 
-					throw new AuthenticationServiceException(
-							"Possible replay attack detected! The comparison of the nonce in the returned "
-									+ "ID Token to the session " + NONCE_SESSION_VARIABLE + " failed. Expected " + storedNonce + " got " + nonce + ".");
-				}
-
+                                            throw new AuthenticationServiceException(
+                                                            "Possible replay attack detected! The comparison of the nonce in the returned "
+                                                                            + "ID Token to the session " + NONCE_SESSION_VARIABLE + " failed. Expected " + storedNonce + " got " + nonce + ".");
+                                    }
+                                }
+                                
 				// pull the subject (user id) out as a claim on the id_token
 
 				String userId = idClaims.getSubject();
