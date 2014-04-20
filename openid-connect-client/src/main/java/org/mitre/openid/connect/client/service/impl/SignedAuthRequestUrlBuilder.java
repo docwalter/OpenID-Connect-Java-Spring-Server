@@ -60,8 +60,10 @@ public class SignedAuthRequestUrlBuilder implements AuthRequestUrlBuilder {
 		// build our redirect URI
 		claims.setClaim("redirect_uri", redirectUri);
 
-		// this comes back in the id token
-		claims.setClaim("nonce", nonce);
+                if(serverConfig.getNonceSupported() == null || serverConfig.getNonceSupported().equals(Boolean.TRUE)) {
+                    // this comes back in the id token
+                    claims.setClaim("nonce", nonce);
+                }
 
 		// this comes back in the auth request return
 		claims.setClaim("state", state);

@@ -145,6 +145,9 @@ public class ServerConfiguration {
     request_uri_parameter_supported
         OPTIONAL. Boolean value specifying whether the OP supports use of the request_uri parameter, with
         true indicating support. If omitted, the default value is true.
+    nonce_supported
+        OPTIONAL. Boolean value specifying whether the OP supports use of the nonce parameter, with true indicating
+        support. If omitted, the default value is true.
     require_request_uri_registration
         OPTIONAL. Boolean value specifying whether the OP requires any request_uri values used to be
         pre-registered using the request_uris registration parameter. Pre-registration is REQUIRED when
@@ -208,6 +211,7 @@ public class ServerConfiguration {
 	private Boolean claimsParameterSupported;
 	private Boolean requestParameterSupported;
 	private Boolean requestUriParameterSupported;
+	private Boolean nonceSupported;
 	private Boolean requireRequestUriRegistration;
 	private String opPolicyUri;
 	private String opTosUri;
@@ -620,6 +624,18 @@ public class ServerConfiguration {
 		this.requestUriParameterSupported = requestUriParameterSupported;
 	}
 	/**
+	 * @return the nonceSupported
+	 */
+        public Boolean getNonceSupported() {
+            return nonceSupported;
+        }
+	/**
+	 * @param nonceSupported the nonceSupported to set
+	 */
+        public void setNonceSupported(Boolean nonceSupported) {
+            this.nonceSupported = nonceSupported;
+        }
+	/**
 	 * @return the requireRequestUriRegistration
 	 */
 	public Boolean getRequireRequestUriRegistration() {
@@ -743,6 +759,10 @@ public class ServerConfiguration {
 				* result
 				+ ((requestUriParameterSupported == null) ? 0
 						: requestUriParameterSupported.hashCode());
+		result = prime
+				* result
+				+ ((nonceSupported == null) ? 0
+						: nonceSupported.hashCode());
 		result = prime
 				* result
 				+ ((requireRequestUriRegistration == null) ? 0
